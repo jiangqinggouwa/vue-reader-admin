@@ -1,8 +1,9 @@
+/* eslint-disable space-before-function-paren */
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
@@ -35,8 +36,8 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    },
-    before: require('./mock/mock-server.js')
+    }
+    // before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -48,7 +49,7 @@ module.exports = {
       }
     }
   },
-  chainWebpack(config) {
+  chainWebpack (config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
@@ -82,13 +83,16 @@ module.exports = {
       .end()
 
     config
+      .when(process.env.NODE_ENV === 'development', config => config.devtool('source-map'))// eval构建快但是无法还原源码
+
+    config
       .when(process.env.NODE_ENV !== 'development',
         config => {
           config
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
