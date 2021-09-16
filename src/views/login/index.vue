@@ -63,18 +63,17 @@
         type="primary"
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
-      >登录</el-button>
+        >登录</el-button
+      >
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from "@/utils/validate";
-import SocialSign from "./components/SocialSignin";
 
 export default {
   name: "Login",
-  components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
